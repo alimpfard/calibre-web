@@ -208,6 +208,9 @@ def HandleSyncRequest():
         formats = [data.format for data in book.Books.data]
         if 'KEPUB' not in formats and config.config_kepubifypath and 'EPUB' in formats:
             helper.convert_book_format(book.Books.id, config.get_book_path(), 'EPUB', 'KEPUB', current_user.name)
+        elif config.config_kepubifypath and 'EPUB' in formats:
+            # FIXME: Don't do this if the file is older than the last sync
+            helper.convert_book_format(book.Books.id, config.get_book_path(), 'EPUB', 'KEPUB', current_user.name)
 
         kobo_reading_state = get_or_create_reading_state(book.Books.id)
         entitlement = {
